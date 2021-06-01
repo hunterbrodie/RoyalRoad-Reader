@@ -21,7 +21,14 @@ typedef VoidFFI = void Function(Pointer<Utf8>, Pointer<Utf8>);
 typedef void_ffi = Void Function(Pointer<Utf8>, Pointer<Utf8>);
 
 final VoidFFI scrape = scrapeLib
-	.lookup<NativeFunction<void_ffi>>("scrape")
+	.lookup<NativeFunction<void_ffi>>("init_scrape")
+	.asFunction();
+
+typedef VoidUpdate = void Function(Pointer<Utf8>);
+typedef void_update = Void Function(Pointer<Utf8>);
+
+final VoidUpdate updateScrapes = scrapeLib
+	.lookup<NativeFunction<void_update>>("update")
 	.asFunction();
 
 final SpinKitPouringHourglass defaultLoader = SpinKitPouringHourglass(
@@ -44,13 +51,18 @@ class ScrapeArg
 	const ScrapeArg(this.title, this.url, this.dir);
 }
 
-//Read Downloads
+//Update downloads
+void _updateDownloads(String dirString)
+{
+	updateScrapes(dirString.toNativeUtf8());
+}
 
+//Read Downloads
 Future<List<String>> _getDownloads(String dirString) async
 {
 	List<String> downloaded = new List<String>.filled(0, "", growable: true);
 
-	Directory dir = await Directory("$dirString/library").create(recursive: true);
+	Directory dir = await Directory(dirString).create(recursive: true);
 	await for (var entity in dir.list(recursive: false, followLinks: false))
 	{
 		downloaded.add(entity.path.split("/").last);
@@ -132,7 +144,9 @@ class _MyHomePageState extends State<MyHomePage>
 	void asyncLoad() async
 	{
 		Directory dir = await getApplicationDocumentsDirectory();
-		downloaded = await compute(_getDownloads, dir.path);
+		String dirString = "${dir.path}/library";
+		downloaded = await compute(_getDownloads, dirString);
+		await compute(_updateDownloads, dirString);
 		setState(() {_isLoading = false;});
 	}
 
@@ -156,12 +170,11 @@ class _MyHomePageState extends State<MyHomePage>
 						}
 						else
 						{
-							return ListView.builder(
+							return ListView.separated(
 								itemCount: downloaded.length,
 								itemBuilder: (context, index)
 								{
 									return Container(
-										color: Colors.white,
 										child: ListTile(
 											title: Text(downloaded[index]),
 											onTap: ()
@@ -173,6 +186,10 @@ class _MyHomePageState extends State<MyHomePage>
 											},
 										),
 									);
+								},
+								separatorBuilder: (context, index)
+								{
+									return Divider();
 								},
 							);
 						}
@@ -272,12 +289,11 @@ class _ResultsPageState extends State<ResultsPage>
 						}
 						else
 						{
-							return ListView.builder(
+							return ListView.separated(
 								itemCount: results.length,
 								itemBuilder: (itemContext, index)
 								{
 									return Container(
-										color: Colors.white,
 										child: ListTile(
 											title: Text(results[index].title),
 											onTap: () async
@@ -294,6 +310,10 @@ class _ResultsPageState extends State<ResultsPage>
 											},
 										),
 									);
+								},
+								separatorBuilder: (context, index)
+								{
+									return Divider();
 								},
 							);
 						}
@@ -380,7 +400,7 @@ class _ChapterPageState extends State<ChapterPage>
 	{
 		return Scaffold(
 			appBar: AppBar(
-				title: Text("Chapters")
+				title: Text("Chapter $chapter")
 			),
 			body: Builder(
 				builder: (BuildContext context)
