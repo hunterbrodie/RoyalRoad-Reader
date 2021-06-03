@@ -31,9 +31,11 @@ final VoidUpdate updateScrapes = scrapeLib
 	.lookup<NativeFunction<void_update>>("update")
 	.asFunction();
 
-final SpinKitPouringHourglass defaultLoader = SpinKitPouringHourglass(
-	color: Colors.blue,
-	size: 50,
+final Center defaultLoader = Center(
+	child: SpinKitPouringHourglass(
+		color: Colors.blue,
+		size: 50,
+	)
 );
 
 class SearchResult
@@ -60,7 +62,7 @@ void _updateDownloads(String dirString)
 //Read Downloads
 Future<List<String>> _getDownloads(String dirString) async
 {
-	List<String> downloaded = new List<String>.filled(0, "", growable: true);
+	List<String> downloaded = <String>[];
 
 	Directory dir = await Directory(dirString).create(recursive: true);
 	await for (var entity in dir.list(recursive: false, followLinks: false))
@@ -74,11 +76,9 @@ Future<List<String>> _getDownloads(String dirString) async
 }
 
 //Search Royal Road
-final searchController = TextEditingController();
-
 List<SearchResult> _scrapeSearch(String title)
 {
-	List<SearchResult> results = new List<SearchResult>.filled(0, new SearchResult("", ""), growable: true);
+	List<SearchResult> results = <SearchResult>[];
 		
    	Pointer<Pointer<Utf8>> arr = scrapeSearch(title.toNativeUtf8());
 
@@ -94,9 +94,15 @@ List<SearchResult> _scrapeSearch(String title)
 }
 
 //Scrape
-Future _scrape(ScrapeArg arg) async
+void _scrape(ScrapeArg arg)
 {
 	scrape(arg.url.toNativeUtf8(), arg.dir.toNativeUtf8());
+}
+
+//Delete
+void _deleteDir(String dirString) async
+{
+	await Directory(dirString).delete(recursive: true);
 }
 
 void main()
@@ -132,7 +138,7 @@ class MyHomePage extends StatefulWidget
 class _MyHomePageState extends State<MyHomePage>
 {
 	bool _isLoading = true;
-	List<String> downloaded = new List<String>.filled(0, "", growable: true);
+	List<String> downloaded = <String>[];
 
 	@override
 	void initState()
@@ -143,10 +149,19 @@ class _MyHomePageState extends State<MyHomePage>
 
 	void asyncLoad() async
 	{
+		List<Future<void>> futures = <Future>[];
+
 		Directory dir = await getApplicationDocumentsDirectory();
 		String dirString = "${dir.path}/library";
 		downloaded = await compute(_getDownloads, dirString);
-		await compute(_updateDownloads, dirString);
+
+		downloaded.forEach((story) async
+		{
+			futures.add(compute(_updateDownloads, "$dirString/$story"));
+		});
+		
+		await Future.wait(futures);
+
 		setState(() {_isLoading = false;});
 	}
 
@@ -155,121 +170,117 @@ class _MyHomePageState extends State<MyHomePage>
   	{
 		return Scaffold(
 			appBar: AppBar(
-				title: Text(widget.title),
+				leading: Icon(Icons.home),
+				title: Text("Home")
 			),
-			body: Center(
-				child: Builder(
+			body: Builder(
 				builder: (BuildContext context)
+				{
+					if (_isLoading == true)
 					{
-						if (_isLoading == true)
-						{
-							return SpinKitPouringHourglass(
-								color: Colors.blue,
-								size: 50,
-							);
-						}
-						else
-						{
-							return ListView.separated(
-								itemCount: downloaded.length,
-								itemBuilder: (context, index)
-								{
-									return Container(
-										child: ListTile(
-											title: Text(downloaded[index]),
-											onTap: ()
-											{
-												Navigator.push(
-													context,
-													MaterialPageRoute(builder: (context) => ChapterPage(title: downloaded[index]))
-												);
-											},
-										),
-									);
-								},
-								separatorBuilder: (context, index)
-								{
-									return Divider();
-								},
-							);
-						}
+						return defaultLoader;
 					}
-				)
+					else
+					{
+						return ListView.separated(
+							itemCount: downloaded.length,
+							itemBuilder: (context, index)
+							{
+								return Container(
+									child: ListTile(
+										title: Text(downloaded[index]),
+										onTap: ()
+										{
+											Navigator.push(
+												context,
+												MaterialPageRoute(builder: (context) => ChapterPage(title: downloaded[index]))
+											);
+										},
+										onLongPress: () async
+										{
+											showDialog(
+												barrierDismissible: false,
+												context: context,
+												builder: (BuildContext context) => _buildDeleteConfirm(context, downloaded[index])
+											);
+										},
+									),
+								);
+							},
+							separatorBuilder: (context, index)
+							{
+								return Divider();
+							},
+						);
+					}
+				}
 			),
 			floatingActionButton: FloatingActionButton(
-				onPressed: ()
-			  	{
-					showDialog(
-						context: context,
-						builder: (BuildContext context) => _buildSearchDialog(context),
+				onPressed: () async
+				{
+					final _ = await Navigator.push(
+						context,
+						MaterialPageRoute(builder: (context) => SearchPage())
 					);
-				},
+
+					setState(() {_isLoading = true;});
+					asyncLoad();
+			  	},
 				tooltip: 'Search',
 				child: Icon(Icons.search),
 			),
 		);
 	}
 
-	Widget _buildSearchDialog(BuildContext context)
+	Widget _buildDeleteConfirm(BuildContext context, String storyName)
 	{
 		return AlertDialog(
-			content: Stack(
-				clipBehavior: Clip.none,
+			title: Row(
 				children: <Widget>[
-					TextField(
-						decoration: InputDecoration(
-							border: OutlineInputBorder(),
-							hintText: 'Search Royal Road'
-						),
-						controller: searchController,
-					),
-					
-				]
+					Icon(Icons.delete),
+					Text("Delete?"),
+				],
 			),
+			content: Text("Are you sure you want to delete $storyName?"),
 			actions: <Widget>[
-			  	new TextButton(
+				TextButton(
+					child: Text("Cancel"),
+					onPressed: ()
+					{
+						Navigator.pop(context);
+					},
+				),
+				TextButton(
+					child: Text("Confirm"),
 					onPressed: () async
 					{
-					  	Navigator.of(context).pop();
-						
-						final _ = await Navigator.push(
-							context,
-							MaterialPageRoute(builder: (context) => ResultsPage())
-						);
-						searchController.clear();
-
+						Navigator.pop(context);
 						setState(() {_isLoading = true;});
+						Directory dir = await getApplicationDocumentsDirectory();
+						await compute(_deleteDir, "${dir.path}/library/$storyName");
 						asyncLoad();
-				  	},
-				  	child: Text('Search')
-			  	),
-		  	]
-	  	);
-  	}
+					},
+				)
+			],
+		);
+	}
 }
 
-class ResultsPage extends StatefulWidget
+class SearchPage extends StatefulWidget
 {
 	@override
-	_ResultsPageState createState() => _ResultsPageState();
+	_SearchPage createState() => _SearchPage();
 }
 
-class _ResultsPageState extends State<ResultsPage>
+class _SearchPage extends State<SearchPage>
 {
-	List<SearchResult> results = new List<SearchResult>.filled(0, new SearchResult("", ""), growable: true);
-	bool _isLoading = true;
+	List<SearchResult> results = <SearchResult>[];
+	bool _isLoading = false;
 
 	@override
 	void initState()
 	{
 		super.initState();
-		asyncLoader();
-	}
-
-	void asyncLoader() async
-	{
-		results = await compute(_scrapeSearch, searchController.text);
-		setState(() {_isLoading = false;});
 	}
 
 	@override
@@ -277,49 +288,68 @@ class _ResultsPageState extends State<ResultsPage>
 	{
 		return Scaffold(
 			appBar: AppBar(
-				title: Text("Results")
-			),
-			body: Center(
-				child: Builder(
-					builder: (BuildContext context)
+				leading: IconButton(
+					icon: Icon(Icons.arrow_back),
+					onPressed: ()
 					{
-						if (_isLoading == true)
-						{
-							return defaultLoader;
-						}
-						else
-						{
-							return ListView.separated(
-								itemCount: results.length,
-								itemBuilder: (itemContext, index)
-								{
-									return Container(
-										child: ListTile(
-											title: Text(results[index].title),
-											onTap: () async
-											{
-												setState(()
-												{
-													_isLoading = true;
-												});
-												Directory dir = await getApplicationDocumentsDirectory();
-												String dirString = "${dir.path}/library/${results[index].title}";
-												ScrapeArg arg = ScrapeArg(results[index].title, results[index].url, dirString);
-												await compute(_scrape, arg);
-												Navigator.pop(context);
-											},
-										),
-									);
-								},
-								separatorBuilder: (context, index)
-								{
-									return Divider();
-								},
-							);
-						}
+						Navigator.pop(context);
+					},
+				),
+				title: TextField(
+					decoration: InputDecoration(
+						focusedBorder: UnderlineInputBorder(
+							borderSide: BorderSide(color: Colors.grey.shade800)
+						),
+						hintText: "Search Royal Road",
+					),
+					cursorColor: Colors.grey.shade800,
+					onSubmitted: (String searchTerm) async
+					{
+						setState(() {_isLoading = true;});
+						results = await compute(_scrapeSearch, searchTerm);
+						setState(() {_isLoading = false;});
 					},
 				)
-			)
+			),
+			body: Builder(
+				builder: (BuildContext context)
+				{
+					if (_isLoading == true)
+					{
+						return defaultLoader;
+					}
+					else
+					{
+						return ListView.separated(
+							itemCount: results.length,
+							itemBuilder: (itemContext, index)
+							{
+								return Container(
+									child: ListTile(
+										title: Text(results[index].title),
+										onTap: () async
+										{
+											setState(()
+											{
+												_isLoading = true;
+											});
+											Directory dir = await getApplicationDocumentsDirectory();
+											String dirString = "${dir.path}/library/${results[index].title}";
+											ScrapeArg arg = ScrapeArg(results[index].title, results[index].url, dirString);
+											await compute(_scrape, arg);
+											Navigator.pop(context);
+										},
+									),
+								);
+							},
+							separatorBuilder: (context, index)
+							{
+								return Divider();
+							},
+						);
+					}
+				},
+			),
 		);
 	}
 }
@@ -336,10 +366,10 @@ class ChapterPage extends StatefulWidget
 
 class _ChapterPageState extends State<ChapterPage>
 {
+	List<int> chapterList = <int>[];
 	bool _isLoading = true, _isLast = false, _isFirst = false;
-	int chapter = 1;
-	String chapterData = "";
-	String dirString = "";
+	int chapter = 1, maxChapters = -1;
+	String chapterData = "", dirString = "";
 
 	@override
 	void initState()
@@ -355,6 +385,16 @@ class _ChapterPageState extends State<ChapterPage>
 		File file = File("$dirString/$chapter.chapter");
 		chapterData = await file.readAsString();
 
+		if (maxChapters == -1)
+		{
+			List<String> maxChaptersList = await compute(_getDownloads, dirString);
+			maxChapters = maxChaptersList.length;
+			for (int i = 1; i < maxChapters; i++)
+			{
+				chapterList.add(i);
+			}
+		}
+
 		if (chapter == 1)
 		{
 			_isFirst = true;
@@ -363,7 +403,7 @@ class _ChapterPageState extends State<ChapterPage>
 		{
 			_isFirst = false;
 		}
-		if (!await File("$dirString/${chapter + 1}.chapter").exists())
+		if (chapter + 1 == maxChapters)
 		{
 			_isLast = true;
 		}
@@ -428,6 +468,26 @@ class _ChapterPageState extends State<ChapterPage>
 													Text("Back"),
 												],
 											)
+										),
+										Spacer(),
+										DropdownButton(
+											value: chapter,
+											items: chapterList.map((num)
+											{
+												return DropdownMenuItem<int>(
+													value: num,
+													child: Text("Chapter $num")
+												);
+											}).toList(),
+											onChanged: (int? value)
+											{
+												setState(()
+												{
+													_isLoading = true;
+													chapter = value as int;
+													asyncLoader();
+												});
+											},
 										),
 										Spacer(),
 										TextButton(
