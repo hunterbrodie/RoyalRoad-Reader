@@ -6,6 +6,7 @@ import 'package:ffi/ffi.dart';
 
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -182,35 +183,42 @@ class _MyHomePageState extends State<MyHomePage>
 					}
 					else
 					{
-						return ListView.separated(
-							itemCount: downloaded.length,
-							itemBuilder: (context, index)
-							{
-								return Container(
-									child: ListTile(
-										title: Text(downloaded[index]),
-										onTap: ()
-										{
-											Navigator.push(
-												context,
-												MaterialPageRoute(builder: (context) => ChapterPage(title: downloaded[index]))
-											);
-										},
-										onLongPress: () async
-										{
-											showDialog(
-												barrierDismissible: false,
-												context: context,
-												builder: (BuildContext context) => _buildDeleteConfirm(context, downloaded[index])
-											);
-										},
-									),
-								);
-							},
-							separatorBuilder: (context, index)
-							{
-								return Divider();
-							},
+						return Scrollbar(
+							child: ListView.separated(
+								itemCount: downloaded.length,
+								itemBuilder: (context, index)
+								{
+									return Container(
+										child: ListTile(
+											title: Text(downloaded[index]),
+											onTap: () async
+											{
+												Directory dir = await getApplicationDocumentsDirectory();
+												File file = File("${dir.path}/library/${downloaded[index]}/.meta");
+												String jsonString = await file.readAsString();
+												Map<String, dynamic> data = jsonDecode(jsonString);
+
+												Navigator.push(
+													context,
+													MaterialPageRoute(builder: (context) => ChapterPage(title: downloaded[index], jsonData: data,))
+												);
+											},
+											onLongPress: () async
+											{
+												showDialog(
+													barrierDismissible: false,
+													context: context,
+													builder: (BuildContext context) => _buildDeleteConfirm(context, downloaded[index])
+												);
+											},
+										),
+									);
+								},
+								separatorBuilder: (context, index)
+								{
+									return Divider();
+								},
+							)
 						);
 					}
 				}
@@ -320,32 +328,34 @@ class _SearchPage extends State<SearchPage>
 					}
 					else
 					{
-						return ListView.separated(
-							itemCount: results.length,
-							itemBuilder: (itemContext, index)
-							{
-								return Container(
-									child: ListTile(
-										title: Text(results[index].title),
-										onTap: () async
-										{
-											setState(()
+						return Scrollbar(
+							child: ListView.separated(
+								itemCount: results.length,
+								itemBuilder: (itemContext, index)
+								{
+									return Container(
+										child: ListTile(
+											title: Text(results[index].title),
+											onTap: () async
 											{
-												_isLoading = true;
-											});
-											Directory dir = await getApplicationDocumentsDirectory();
-											String dirString = "${dir.path}/library/${results[index].title}";
-											ScrapeArg arg = ScrapeArg(results[index].title, results[index].url, dirString);
-											await compute(_scrape, arg);
-											Navigator.pop(context);
-										},
-									),
-								);
-							},
-							separatorBuilder: (context, index)
-							{
-								return Divider();
-							},
+												setState(()
+												{
+													_isLoading = true;
+												});
+												Directory dir = await getApplicationDocumentsDirectory();
+												String dirString = "${dir.path}/library/${results[index].title}";
+												ScrapeArg arg = ScrapeArg(results[index].title, results[index].url, dirString);
+												await compute(_scrape, arg);
+												Navigator.pop(context);
+											},
+										),
+									);
+								},
+								separatorBuilder: (context, index)
+								{
+									return Divider();
+								},
+							)
 						);
 					}
 				},
@@ -356,9 +366,10 @@ class _SearchPage extends State<SearchPage>
 
 class ChapterPage extends StatefulWidget
 {
-	ChapterPage({Key? key, required this.title}) : super(key: key);
+	ChapterPage({Key? key, required this.title, required this.jsonData}) : super(key: key);
 
 	final String title;
+	Map<String, dynamic> jsonData;
 
 	@override
 	_ChapterPageState createState() => _ChapterPageState();
@@ -368,7 +379,7 @@ class _ChapterPageState extends State<ChapterPage>
 {
 	List<int> chapterList = <int>[];
 	bool _isLoading = true, _isLast = false, _isFirst = false;
-	int chapter = 1, maxChapters = -1;
+	int maxChapters = -1;
 	String chapterData = "", dirString = "";
 
 	@override
@@ -382,8 +393,11 @@ class _ChapterPageState extends State<ChapterPage>
 	{
 		Directory dir = await getApplicationDocumentsDirectory();
 		dirString = "${dir.path}/library/${widget.title}";
-		File file = File("$dirString/$chapter.chapter");
+		File file = File("$dirString/${widget.jsonData["last_read"]}.chapter");
 		chapterData = await file.readAsString();
+
+		file = File("$dirString/.meta");
+		await file.writeAsString(jsonEncode(widget.jsonData));
 
 		if (maxChapters == -1)
 		{
@@ -395,7 +409,7 @@ class _ChapterPageState extends State<ChapterPage>
 			}
 		}
 
-		if (chapter == 1)
+		if (widget.jsonData["last_read"] == 1)
 		{
 			_isFirst = true;
 		}
@@ -403,7 +417,7 @@ class _ChapterPageState extends State<ChapterPage>
 		{
 			_isFirst = false;
 		}
-		if (chapter + 1 == maxChapters)
+		if (widget.jsonData["last_read"] + 1 == maxChapters)
 		{
 			_isLast = true;
 		}
@@ -420,7 +434,7 @@ class _ChapterPageState extends State<ChapterPage>
 		setState(()
 		{
 			_isLoading = true;
-			chapter++;
+			widget.jsonData["last_read"]++;
 			asyncLoader();
 		});
 	}
@@ -430,7 +444,7 @@ class _ChapterPageState extends State<ChapterPage>
 		setState(()
 		{
 			_isLoading = true;
-			chapter--;
+			widget.jsonData["last_read"]--;
 			asyncLoader();
 		});
 	}
@@ -440,7 +454,7 @@ class _ChapterPageState extends State<ChapterPage>
 	{
 		return Scaffold(
 			appBar: AppBar(
-				title: Text("Chapter $chapter")
+				title: Text("Chapter ${widget.jsonData["last_read"]}")
 			),
 			body: Builder(
 				builder: (BuildContext context)
@@ -471,7 +485,7 @@ class _ChapterPageState extends State<ChapterPage>
 										),
 										Spacer(),
 										DropdownButton(
-											value: chapter,
+											value: widget.jsonData["last_read"] as int,
 											items: chapterList.map((num)
 											{
 												return DropdownMenuItem<int>(
@@ -484,7 +498,7 @@ class _ChapterPageState extends State<ChapterPage>
 												setState(()
 												{
 													_isLoading = true;
-													chapter = value as int;
+													widget.jsonData["last_read"] = value as int;
 													asyncLoader();
 												});
 											},
@@ -505,13 +519,15 @@ class _ChapterPageState extends State<ChapterPage>
 									],
 								),
 							),
-							body: SingleChildScrollView(
-								scrollDirection: Axis.vertical,
-								child: Padding(
-									child: Text(chapterData),
-									padding: EdgeInsets.all(16),
-								)
-							),
+							body: Scrollbar(
+								child: SingleChildScrollView(
+									scrollDirection: Axis.vertical,
+									child: Padding(
+										child: Text(chapterData),
+										padding: EdgeInsets.all(16),
+									)
+								),
+							)
 						);
 					}
 				}
