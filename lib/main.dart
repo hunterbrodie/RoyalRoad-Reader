@@ -10,7 +10,9 @@ import 'dart:convert';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-final DynamicLibrary scrapeLib = DynamicLibrary.open('librrscrapelib.so');
+final DynamicLibrary scrapeLib = Platform.isAndroid
+	? DynamicLibrary.open('librrscrapelib.so')
+	: DynamicLibrary.process();
 
 typedef StringArr = Pointer<Pointer<Utf8>> Function(Pointer<Utf8>);
 
