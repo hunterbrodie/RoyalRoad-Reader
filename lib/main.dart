@@ -158,12 +158,7 @@ class _MyHomePageState extends State<MyHomePage>
 		String dirString = "${dir.path}/library";
 		downloaded = await compute(_getDownloads, dirString);
 
-		downloaded.forEach((story) async
-		{
-			futures.add(compute(_updateDownloads, "$dirString/$story"));
-		});
-		
-		await Future.wait(futures);
+		await compute(_updateDownloads, "$dirString");
 
 		setState(() {_isLoading = false;});
 	}

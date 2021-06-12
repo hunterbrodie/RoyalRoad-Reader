@@ -1,0 +1,1 @@
+{"rustc":18250536222580762119,"features":"[\"alloc\", \"default\", \"std\"]","target":10577718811532972458,"profile":10796641224631929329,"path":8570823605219089302,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"x86_64-linux-android/release/.fingerprint/futures-sink-72e32ade379010e3/dep-lib-futures-sink"}}],"rustflags":[],"metadata":7407675505569626460,"config":0}

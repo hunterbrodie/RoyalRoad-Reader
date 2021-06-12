@@ -1,0 +1,1 @@
+{"rustc":18250536222580762119,"features":"","target":0,"profile":0,"path":0,"deps":[[17247943515451559059,"build_script_build",false,1490047699919883479]],"local":[{"RerunIfChanged":{"output":"x86_64-linux-android/release/build/html5ever-9ce732d5fd347f2c/output","paths":["src/tree_builder/rules.rs"]}}],"rustflags":[],"metadata":0,"config":0}

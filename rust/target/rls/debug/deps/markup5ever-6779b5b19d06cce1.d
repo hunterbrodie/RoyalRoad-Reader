@@ -1,0 +1,15 @@
+/home/hunter/Code/royalroadreader/rust/target/rls/debug/deps/markup5ever-6779b5b19d06cce1.rmeta: /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/lib.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/data/mod.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/interface/mod.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/interface/tree_builder.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/serialize.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/util/buffer_queue.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/util/smallcharset.rs /home/hunter/Code/royalroadreader/rust/target/rls/debug/build/markup5ever-f6d65006ca2aa925/out/generated.rs /home/hunter/Code/royalroadreader/rust/target/rls/debug/build/markup5ever-f6d65006ca2aa925/out/named_entities.rs
+
+/home/hunter/Code/royalroadreader/rust/target/rls/debug/deps/markup5ever-6779b5b19d06cce1.d: /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/lib.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/data/mod.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/interface/mod.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/interface/tree_builder.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/serialize.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/util/buffer_queue.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/util/smallcharset.rs /home/hunter/Code/royalroadreader/rust/target/rls/debug/build/markup5ever-f6d65006ca2aa925/out/generated.rs /home/hunter/Code/royalroadreader/rust/target/rls/debug/build/markup5ever-f6d65006ca2aa925/out/named_entities.rs
+
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/lib.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/data/mod.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/interface/mod.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/interface/tree_builder.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/serialize.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/util/buffer_queue.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/markup5ever-0.10.1/util/smallcharset.rs:
+/home/hunter/Code/royalroadreader/rust/target/rls/debug/build/markup5ever-f6d65006ca2aa925/out/generated.rs:
+/home/hunter/Code/royalroadreader/rust/target/rls/debug/build/markup5ever-f6d65006ca2aa925/out/named_entities.rs:
+
+# env-dep:OUT_DIR=/home/hunter/Code/royalroadreader/rust/target/rls/debug/build/markup5ever-f6d65006ca2aa925/out

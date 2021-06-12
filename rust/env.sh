@@ -1,0 +1,2 @@
+#x86-64
+export PKG_CONFIG_ALLOW_CROSS=1 && export OPENSSL_STATIC=true && export OPENSSL_DIR=/home/hunter/Code/royalroadreader/rust/openssl/x86_64-android/install && export ANDROID_NDK=/opt/android-sdk/android-ndk-r21e && export PATH=/opt/android-sdk/android-ndk-r21e/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH

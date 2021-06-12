@@ -1,0 +1,1 @@
+{"rustc":18250536222580762119,"features":"","target":0,"profile":0,"path":0,"deps":[[11351125385971827517,"build_script_build",false,6427272002252723845]],"local":[{"RerunIfChanged":{"output":"x86_64-linux-android/release/build/futures-util-2a6982cd43f3ceeb/output","paths":["no_atomic_cas.rs"]}}],"rustflags":[],"metadata":0,"config":0}

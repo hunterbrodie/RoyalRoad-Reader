@@ -1,0 +1,11 @@
+/home/hunter/Code/royalroadreader/rust/target/rls/debug/deps/futures_core-bd808c1718c9988e.rmeta: /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/lib.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/future.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/stream.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/mod.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/poll.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/__internal/mod.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/__internal/atomic_waker.rs
+
+/home/hunter/Code/royalroadreader/rust/target/rls/debug/deps/futures_core-bd808c1718c9988e.d: /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/lib.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/future.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/stream.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/mod.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/poll.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/__internal/mod.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/__internal/atomic_waker.rs
+
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/lib.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/future.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/stream.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/mod.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/poll.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/__internal/mod.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.15/src/task/__internal/atomic_waker.rs:

@@ -1,0 +1,13 @@
+/home/hunter/Code/royalroadreader/rust/target/rls/debug/deps/indexmap-4a66d9834198c29f.rmeta: /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/lib.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/macros.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/equivalent.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/mutable_keys.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/util.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/map.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/map/core.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/map/core/raw.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/set.rs
+
+/home/hunter/Code/royalroadreader/rust/target/rls/debug/deps/indexmap-4a66d9834198c29f.d: /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/lib.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/macros.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/equivalent.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/mutable_keys.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/util.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/map.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/map/core.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/map/core/raw.rs /home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/set.rs
+
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/lib.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/macros.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/equivalent.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/mutable_keys.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/util.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/map.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/map/core.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/map/core/raw.rs:
+/home/hunter/.cargo/registry/src/github.com-1ecc6299db9ec823/indexmap-1.6.2/src/set.rs:

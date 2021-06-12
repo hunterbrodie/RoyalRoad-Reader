@@ -1,0 +1,1 @@
+{"rustc":18250536222580762119,"features":"[]","target":13702263869886386737,"profile":10796641224631929329,"path":11244919874695994346,"deps":[[4344950754519673329,"libc",false,8833515726184388803]],"local":[{"CheckDepInfo":{"dep_info":"x86_64-linux-android/release/.fingerprint/time-eda5064234356f81/dep-lib-time"}}],"rustflags":[],"metadata":8937303733317455548,"config":0}
