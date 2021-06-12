@@ -23,6 +23,12 @@ struct MetaData
 }
 
 #[no_mangle]
+pub extern fn enforce_binding()
+{
+	println!("binding enforced");
+}
+
+#[no_mangle]
 pub extern fn search(title: *const c_char) -> *const *mut c_char 
 {
 	let title = match unsafe { CStr::from_ptr(title) }.to_str()
