@@ -23,9 +23,10 @@ struct MetaData
 }
 
 #[no_mangle]
-pub extern fn enforce_binding()
+pub extern fn enforce_binding() -> *mut c_char
 {
-	println!("binding enforced");
+	let str = CString::new(String::from("success")).unwrap();
+	str.into_raw()
 }
 
 #[no_mangle]
