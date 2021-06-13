@@ -173,13 +173,10 @@ pub extern fn update(dir: *const c_char)
 			update_story(&mut p.path());
 		}));
 	}
-
-	if i == 10
+	
+	for handle in handles
 	{
-		for handle in handles
-		{
-			handle.join().unwrap();
-		}
+		handle.join().unwrap();
 	}
 }
 
