@@ -151,9 +151,22 @@ pub extern fn update(dir: *const c_char)
 
 	let stories = fs::read_dir(&dir).unwrap();
 	let mut handles: Vec<std::thread::JoinHandle<()>> = Vec::new();
+	let mut i = 0;
 
 	for p in stories
 	{
+		i += 1;
+
+		if i == 10
+		{
+			for handle in handles
+			{
+				handle.join().unwrap();
+			}
+
+			handles = Vec::new();
+		}
+
 		let p = p.unwrap();
 		handles.push(thread::spawn(move ||
 		{
@@ -161,9 +174,12 @@ pub extern fn update(dir: *const c_char)
 		}));
 	}
 
-	for handle in handles
+	if i == 10
 	{
-		handle.join().unwrap();
+		for handle in handles
+		{
+			handle.join().unwrap();
+		}
 	}
 }
 
