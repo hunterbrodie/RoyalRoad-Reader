@@ -141,6 +141,7 @@ class MyHomePage extends StatefulWidget
 class _MyHomePageState extends State<MyHomePage>
 {
 	bool _isLoading = true;
+	bool _update = true;
 	List<String> downloaded = <String>[];
 
 	@override
@@ -158,9 +159,12 @@ class _MyHomePageState extends State<MyHomePage>
 		String dirString = "${dir.path}/library";
 		downloaded = await compute(_getDownloads, dirString);
 
-		await compute(_updateDownloads, "$dirString");
+		if (_update == true)
+		{
+			await compute(_updateDownloads, "$dirString");
+		}
 
-		setState(() {_isLoading = false;});
+		setState(() {_isLoading = false; _update = false;});
 	}
 
   	@override
