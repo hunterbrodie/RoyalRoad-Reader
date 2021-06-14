@@ -1,0 +1,1 @@
+{"rustc":18250536222580762119,"features":"","target":0,"profile":0,"path":0,"deps":[[880240188552616807,"build_script_build",false,2545543236231648690]],"local":[{"RerunIfChanged":{"output":"x86_64-linux-android/release/build/proc-macro-nested-23e2511bd621897e/output","paths":["build.rs"]}}],"rustflags":[],"metadata":0,"config":0}
