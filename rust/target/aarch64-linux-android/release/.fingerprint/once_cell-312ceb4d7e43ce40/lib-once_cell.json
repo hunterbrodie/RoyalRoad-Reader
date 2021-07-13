@@ -1,0 +1,1 @@
+{"rustc":18250536222580762119,"features":"[\"alloc\", \"race\", \"std\"]","target":4333757125291285824,"profile":10796641224631929329,"path":18192113542064290525,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"aarch64-linux-android/release/.fingerprint/once_cell-312ceb4d7e43ce40/dep-lib-once_cell"}}],"rustflags":[],"metadata":14177539708254521827,"config":0}
